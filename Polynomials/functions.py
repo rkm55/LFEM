@@ -3,7 +3,7 @@
 
 import sympy
 
-def taylor_expansion(fun,a,order):
+def taylorExpansion(fun,a,order):
     x = list(fun.atoms(sympy.Symbol))[0]
     t = 0
     for i in range (0,order + 1):
