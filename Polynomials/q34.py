@@ -28,3 +28,8 @@ class Test_evaluateMonomialBasis1D( unittest.TestCase ):
    def test_basisAtMidpoint( self ):
        for p in range( 0, 11 ):
            self.assertAlmostEqual( first = evaluateMonomialBasis1D( degree = p, variate = 0.5 ), second = 1 / ( 2**p ), delta = 1e-12 )
+           
+#def evaluateMonomialBasis1D(degree,variate):
+    #return variate**degree
+
+unittest.main()         
