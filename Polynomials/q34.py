@@ -3,16 +3,6 @@
 
 import unittest
 
-# def evaluateMonomialBasis1D(degree, variate):
-#     if degree == 0 and variate == 0:
-#         return 1
-#     elif degree > 0 and variate == 0:
-#         return 0
-#     elif degree >0 and variate == 1:
-#         return 1
-#     elif degree >= 0 and variate == 0.5:
-#         return 1/(2**degree)
-    
     
 def evaluateMonomialBasis1D(degree,variate):
     return variate**degree

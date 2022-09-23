@@ -7,10 +7,6 @@ import numpy as np
 def evaluateLagrangeBasis1D(variate,degree,basis_idx):
     step = 2/degree
     xj = np.arange(-1,2,step)
-    # if degree == 1:
-    #     xj  = [-1, 1]
-    # elif degree == 2:
-    #     xj  = [-1, 0, 1]
     val = 1 
     for j in range(0,degree+1):
         if j == basis_idx:
@@ -19,6 +15,20 @@ def evaluateLagrangeBasis1D(variate,degree,basis_idx):
             val = val*(variate - xj[j])/(xj[basis_idx] - xj[j])
     return val
 
+# def evaluateLagrangeBasis1D(variate,degree,basis_idx):
+#     step = 2/degree
+#     xj = np.arange(-1,2,step)
+#     if degree == 1:
+#         xj  = [-1, 1]
+#     elif degree == 2:
+#         xj  = [-1, 0, 1]
+#     val = 1 
+#     for j in range(0,degree+1):
+#         if j == basis_idx:
+#             val = val
+#         else:
+#             val = val*(variate - xj[j])/(xj[basis_idx] - xj[j])
+#     return val
 
 # def evaluateLagrangeBasis1D(variate,degree,basis_idx):
 #     if degree == 1:
