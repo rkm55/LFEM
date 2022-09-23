@@ -7,12 +7,7 @@ import math
 def evaluateBernsteinBasis1D( variate, degree, basis_idx):
     p = degree
     i = basis_idx
-    if variate == -1:
-        v = 0
-    elif variate == 0:
-        v = 0.5
-    elif variate == 1:
-        v = 1
+    v = (variate + 1)/2
     t1 = math.comb(p,i)
     t2 = v**i
     t3 = (1-v)**(p-i)
