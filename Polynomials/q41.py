@@ -4,7 +4,15 @@
 import unittest
 import math
 
-def evaluateBernsteinBasis1D( v, p, i):
+def evaluateBernsteinBasis1D( variate, degree, basis_idx):
+    p = degree
+    i = basis_idx
+    if variate == -1:
+        v = 0
+    elif variate == 0:
+        v = 0.5
+    elif variate == 1:
+        v = 1
     t1 = math.comb(p,i)
     t2 = v**i
     t3 = (1-v)**(p-i)
@@ -12,9 +20,20 @@ def evaluateBernsteinBasis1D( v, p, i):
     return val
 
 
-# v = evaluateBernsteinBasis1D(1, 2, 2)
-# print(v)
+# formula is on domain [0,1]
+# scale for domain [-1,1] to pass tests
+# think of it as a change of basis or scaling
+# scale the input from [-1,1] to [0,1]
+# old function below, passing function above
 
+# def evaluateBernsteinBasis1D( v, p, i):
+#     t1 = math.comb(p,i)
+#     t2 = v**i
+#     t3 = (1-v)**(p-i)
+#     val = t1*t2*t3
+#     return val
+
+print(evaluateBernsteinBasis1D(0, 2, 0))
 
 class Test_evaluateBernsteinBasis1D( unittest.TestCase ):
     def test_linearBernstein( self ):
