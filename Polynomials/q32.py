@@ -15,7 +15,7 @@ def taylorExpansion( fun, a, order ):
        t += term
     return t
 
-"""
+
 # taylor expansion
 xxx = sympy.Symbol('xxx')  
 fun1 = sympy.sin(np.pi*xxx)
@@ -49,7 +49,7 @@ plt.xlabel('x')
 plt.ylabel('f(x)')
 #plt.savefig('plot_q32_3.png', dpi=600)
 #plt.figure(0) to name figures
-"""
+
 
 # taylor expansion error
 x = sympy.Symbol('x')
