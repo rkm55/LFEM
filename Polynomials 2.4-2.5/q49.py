@@ -18,7 +18,9 @@ def computeGaussLegendreQuadrature( n ):
 
 def assembleLinearMomentFitSystem( degree, pts ):
     A = numpy.zeros( shape = ( degree + 1, len( pts ) ), dtype = "double" )
-    ## YOUR CODE GOES HERE
+    for m in range(0, degree + 1):
+        for n in range(0, len(pts)):
+            A[m,n] = evalLegendreBasis1D(m, pts[n])
     return A
 
 def solveLinearMomentFit( M, pts ):
@@ -32,9 +34,21 @@ def objFun( M, pts ):
     degree = len( M ) - 1
     A = assembleLinearMomentFitSystem( degree, pts )
     w = solveLinearMomentFit( M, pts )
-    ## YOUR CODE GOES HERE
+    obj_val = M - numpy.matmul(A,w)
     return obj_val
 
+
+def evalLegendreBasis1D( degree, variate):
+    if degree == 0:
+        val = 1.0
+    elif degree == 1:
+        val = variate
+    else:
+        i = degree - 1
+        term_1 = i * evalLegendreBasis1D(degree = i-1, variate = variate)
+        term_2 = (2*i + 1) * variate * evalLegendreBasis1D( degree = i, variate = variate)
+        val = (term_2 - term_1)/(i + 1)
+    return val
 
 
 class Test_computeGaussLegendreQuadrature( unittest.TestCase ):
