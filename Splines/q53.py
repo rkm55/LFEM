@@ -6,13 +6,23 @@
 
 import unittest
 import numpy
-
+import math
+from q52 import generateMesh1D
 
 def computeSolution(target_fun, domain, num_elems, degree):
-    # function stuff
+    node_coords, ien_array = generateMesh1D(domain[0], domain[1], num_elems, degree)
+    
     return 0
 
-
+# def evaluateBernsteinBasis1D( variate, degree, basis_idx):
+#     p = degree
+#     i = basis_idx
+#     v = (variate + 1)/2
+#     t1 = math.comb(p,i)
+#     t2 = v**i
+#     t3 = (1-v)**(p-i)
+#     val = t1*t2*t3
+#     return val
 
 class Test_computeSolution( unittest.TestCase ):
     def test_single_linear_element_poly( self ):
@@ -34,3 +44,5 @@ class Test_computeSolution( unittest.TestCase ):
         test_solution, node_coords, ien_array = computeSolution( target_fun = lambda x : x**2, domain = [-1.0, 1.0 ], num_elems = 4, degree = 1 )
         gold_solution = numpy.array( [ 1.0, 0.25, 0.0, 0.25, 1.0 ] )
         self.assertTrue( numpy.allclose( test_solution, gold_solution ) )
+        
+unittest.main()
