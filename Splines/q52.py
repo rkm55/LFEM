@@ -28,7 +28,6 @@ def generateMesh1D(xmin, xmax, num_elems, degree):
 
 
 
-
 class Test_generateMesh1D( unittest.TestCase ):
     def test_make_1_linear_elem( self ):
         gold_node_coords = numpy.array( [ 0.0, 1.0 ] )
