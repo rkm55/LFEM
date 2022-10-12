@@ -23,3 +23,13 @@ def generateMesh(xmin, xmax, num_elems, degree):
             ien_array.append(ien)
         ien_array = numpy.asarray(ien_array)
     return node_coords, ien_array
+
+
+def computeSolution(target_fun, domain, num_elems, degree):
+    node_coords, ien_array = generateMesh(domain[0], domain[1], num_elems, degree)
+    test_solution = []
+    for i in range(0,len(node_coords)):
+        y = target_fun(node_coords[i])
+        test_solution.append(y)
+    test_solution = numpy.asarray(test_solution)
+    return test_solution, node_coords, ien_array
