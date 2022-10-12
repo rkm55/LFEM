@@ -3,25 +3,39 @@
 
 import numpy
 
-def generateMesh(xmin, xmax, num_elems, degree):
-    if degree <= 0 or degree >= 3:
-        raise ValueError('degree_MUST_BE_1=LINEAR_OR_2=QUADRATIC')
-    elif degree == 1:
-        node_coords = numpy.linspace(xmin, xmax, num_elems + 1)
-        n = len(node_coords) - 1
-        ien_array = []
-        for i in range(0, n):
-            ien = numpy.array([i, i + 1])
-            ien_array.append(ien)
-        ien_array = numpy.asarray(ien_array)
-    elif degree == 2:
-        node_coords = numpy.linspace(xmin, xmax, 2*num_elems + 1)
-        n = len(node_coords) - 1
-        ien_array = []
-        for i in range(0, n, 2):
-            ien = numpy.array([i, i + 1, i + 2])
-            ien_array.append(ien)
-        ien_array = numpy.asarray(ien_array)
+def generateMesh(xmin,xmax,num_elems,degree):
+    if degree <= 0:
+        raise ValueError('degree_MUST_BE_>=_1')
+    ien_array = []
+    node_coords = numpy.linspace(xmin,xmax,(degree*num_elems)+1)
+    for i in range(0,len(node_coords)-1,degree):
+        ien = numpy.linspace(i,i+degree,degree+1)
+        ien = ien.astype(int)
+        ien = list(ien)
+        ien_array.append(ien)
+    ien_array = numpy.asarray(ien_array)
+    return node_coords, ien_array
+
+
+def generateMeshElemWise(xmin,xmax,degree):
+    ien_array = []
+    key = []
+    last_node = 0
+    num_elems = len(degree)
+    node_coords = []
+    last_coord = xmin
+    domain = xmax - xmin
+    for i in range(0, num_elems):
+        ien = numpy.linspace(last_node, degree[i] + last_node, degree[i] + 1)
+        ien = list(ien.astype(int))
+        last_node = ien[-1]
+        key.append(i)
+        ien_array.append(ien)
+        elem_coords = list(numpy.linspace(last_coord, (domain/num_elems) + last_coord, degree[i] + 1))
+        last_coord = elem_coords[-1]
+        node_coords.extend(elem_coords)
+    ien_array = dict(zip(key, ien_array))
+    node_coords = numpy.unique(numpy.asarray(node_coords))
     return node_coords, ien_array
 
 
