@@ -8,7 +8,7 @@ import quadrature
 
 def assembleGramMatrix(domain,degree,solution_basis):
     nodes = degree + 1
-    qp, w = quadrature.computeGaussLegendreQuadrature(nodes)
+    qp, w = quadrature.computeGaussLegendreQuadrature(nodes + 3)
     num_basis_vec = degree + 1
     derivative = (domain[-1] - domain[0]) / 2
     M = numpy.zeros((num_basis_vec,num_basis_vec))

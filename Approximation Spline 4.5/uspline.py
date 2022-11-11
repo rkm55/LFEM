@@ -1,15 +1,20 @@
-# A general purpose Python module for building univariate U-splines in Coreform Cubit
-
 import sys
 import numpy
+import unittest
 
 if __name__ == "CubitPythonInterpreter_2":
     # We are running within the Coreform Cubit application, cubit python module is already available
     pass
 else:
-    sys.path.append("C:\Program Files\Coreform Cubit 2022.4\bin")
+    if "linux" in sys.platform:
+        sys.path.append("/opt/Coreform-Cubit-2022.10/bin")
+    elif "darwin" in sys.platform:
+        pass
+    elif "win" in sys.platform:
+        # sys.path.append( r"C:\Program Files\Coreform Cubit 2022.10\bin" )
+        sys.path.append( r"C:\Program Files\Coreform Cubit 2022.4\bin" )
     import cubit
-    cubit.init([])
+    cubit.init(["cubit", "-nog"])
 
 ## MAIN FUNCTION
 def make_uspline_mesh( spline_space, filename ):
@@ -19,6 +24,7 @@ def make_uspline_mesh( spline_space, filename ):
   assign_uspline_params( spline_space )
   build_uspline()
   export_uspline( filename )
+  cubit.cmd( "reset" )
 
 ## SECONDARY FUNCTIONS
 def build_geometry( spline_space ):
@@ -83,3 +89,42 @@ def sort_element_nodes( ien_array ):
     if x1 < x0:
       ien_array[eid] = tuple( reversed( ien_array[eid] ) )
   return ien_array
+
+class Test_bsplines( unittest.TestCase):
+  def test_bspline_1( self ):  
+    spline_space = { "domain": [0, 2], "degree": [2, 2], "continuity": [-1, 1, -1]}
+    make_uspline_mesh( spline_space, "two_element_quadratic_bspline" )
+
+  def test_bspline_2( self ):  
+    spline_space = { "domain": [0, 3], "degree": [2, 2, 2], "continuity": [-1, 1, 1, -1]}
+    make_uspline_mesh( spline_space, "three_element_quadratic_bspline" )
+
+  def test_bspline_3( self ):  
+    spline_space = { "domain": [0, 3], "degree": [2, 2, 2], "continuity": [-1, 2, 2, -1]}
+    make_uspline_mesh( spline_space, "supersmooth_quadratic_bspline" )
+
+  def test_bspline_4( self ):  
+    degree = 6
+    continuity = [-1]
+    for i in range( degree ):
+      continuity.append( degree - 1 )
+    continuity.append( -1 )
+    spline_space = { "domain": [0, 10], "degree": [degree]*(degree+1), "continuity": continuity}
+    make_uspline_mesh( spline_space, "high_order_bspline" )
+
+class Test_usplines( unittest.TestCase ):
+  def test_uspline_1( self ):
+    spline_space = { "domain": [0, 4], "degree": [1, 2, 3, 4], "continuity": [-1, 1, 2, 3, -1]}
+    make_uspline_mesh( spline_space, "multi_deg_uspline" )
+
+  def test_uspline_2( self ):
+    spline_space = { "domain": [0, 4], "degree": [1, 2, 3, 4], "continuity": [-1, 1, 2, 3, -1]}
+    make_uspline_mesh( spline_space, "multi_deg_maxsmooth_uspline" )
+
+  def test_uspline_3( self ):
+    spline_space = { "domain": [0, 5], "degree": [1, 2, 3, 2, 1], "continuity": [-1, 0, 1, 1, 0, -1]}
+    make_uspline_mesh( spline_space, "ref_int_uspline" )
+
+  def test_uspline_4( self ):
+    spline_space = { "domain": [0, 11], "degree": [1, 2, 3, 4, 4, 4, 4, 4, 3, 2, 1], "continuity": [-1, 1, 2, 3, 3, 3, 3, 3, 3, 2, 1, -1]}
+    make_uspline_mesh( spline_space, "optimal_multi_deg_uspline" )
