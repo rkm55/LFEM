@@ -11,7 +11,7 @@ def assembleForceVector(target_fun,domain,degree,solution_basis):
     nodes = degree + 1
     num_basis_vec = degree + 1
     F = numpy.zeros(num_basis_vec)
-    qp, w = quadrature.computeGaussLegendreQuadrature(nodes + 3)
+    qp, w = quadrature.computeGaussLegendreQuadrature(2*nodes)
     qp_fun = ((domain[-1] - domain[0])/2)*qp + (domain[0] + domain[-1])/2
     derivative = (domain[-1] - domain[0]) / 2
     for A in range(0,num_basis_vec):
